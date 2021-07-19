@@ -18,6 +18,9 @@ package com.android.providers.downloads;
 
 import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_METERED;
 import static android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING;
+import static android.net.NetworkCapabilities.TRANSPORT_CELLULAR;
+import static android.net.NetworkCapabilities.TRANSPORT_VPN;
+import static android.net.NetworkCapabilities.TRANSPORT_WIFI;
 import static android.provider.Downloads.Impl.COLUMN_CONTROL;
 import static android.provider.Downloads.Impl.COLUMN_DELETED;
 import static android.provider.Downloads.Impl.COLUMN_STATUS;
@@ -65,6 +68,9 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
+import static android.net.NetworkPolicyManager.POLICY_REJECT_CELLULAR;
+import static android.net.NetworkPolicyManager.POLICY_REJECT_VPN;
+import static android.net.NetworkPolicyManager.POLICY_REJECT_WIFI;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -250,6 +256,7 @@ public class DownloadThread extends Thread {
     private volatile boolean mShutdownRequested;
 
     public DownloadThread(DownloadJobService service, JobParameters params, DownloadInfo info) {
+
         mContext = service;
         mSystemFacade = Helpers.getSystemFacade(mContext);
         mNotifier = Helpers.getDownloadNotifier(mContext);
@@ -298,11 +305,46 @@ public class DownloadThread extends Thread {
                         "No network associated with requesting UID");
             }
 
+            // Get network of the calling app Uid and compare to the
+            // network policy set by the firewall. If the firewall
+            // does not allow particular interface access, then block
+            // download.
+            final Network mUidNetwork = IConnectivityManager.Stub.asInterface(
+                    ServiceManager.getService(Context.CONNECTIVITY_SERVICE))
+                    .getActiveNetworkForUid(mInfo.mUid, false);
+
+            final NetworkCapabilities mUidNetworkCapabilities = IConnectivityManager.Stub.asInterface(
+                    ServiceManager.getService(Context.CONNECTIVITY_SERVICE))
+                    .getNetworkCapabilities(mUidNetwork, "com.android.providers.downloads");
+
+            final int mUidPolicy = mNetworkPolicy.getUidPolicy(mInfo.mUid);
+
+            // Check first if Uid is completely isolated (no network access).
             if (IConnectivityManager.Stub.asInterface(
                     ServiceManager.getService(Context.CONNECTIVITY_SERVICE))
                     .isUidIsolated(mInfo.mUid)) {
                 throw new StopRequestException(STATUS_BLOCKED,
                         "Download blocked by network policy for requesting UID");
+            }
+
+            // Go through network types to check if download should be blocked.
+            if (mUidNetworkCapabilities.hasCapability(TRANSPORT_CELLULAR)){
+                if ((mUidPolicy & POLICY_REJECT_CELLULAR) != 0){
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
+            }
+            if (mUidNetworkCapabilities.hasCapability(TRANSPORT_WIFI)){
+                if ((mUidPolicy & POLICY_REJECT_WIFI) != 0){
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
+            }
+            if (mUidNetworkCapabilities.hasCapability(TRANSPORT_VPN)){
+                if ((mUidPolicy & POLICY_REJECT_VPN) != 0){
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
             }
 
             // Remember which network this download started on; used to
