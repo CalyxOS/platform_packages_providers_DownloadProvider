@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f5b3b8f_83f7d31d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-10T18:20:36Z",
+      "side": 1,
+      "message": "We should test this first with \u0027signature\u0027 perms.\n\nIf it works, then see below for framework changes we could do to ship this.",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5eb5135_f48a4246",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-10T18:20:36Z",
+      "side": 1,
+      "message": "Instead of calling this which required \u0027signature\u0027,",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b091ec4a_7922acd4",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-10T18:20:36Z",
+      "side": 1,
+      "message": "This could be a new method we added, simple boolean check, just like how we added isUidIsolated",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6354ab26_6a8a725a",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-10T18:20:36Z",
+      "side": 1,
+      "message": "Same here and below.",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
