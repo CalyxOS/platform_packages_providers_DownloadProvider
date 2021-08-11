@@ -23,6 +23,7 @@ import static android.provider.Downloads.Impl.COLUMN_DELETED;
 import static android.provider.Downloads.Impl.COLUMN_STATUS;
 import static android.provider.Downloads.Impl.CONTROL_PAUSED;
 import static android.provider.Downloads.Impl.STATUS_BAD_REQUEST;
+import static android.provider.Downloads.Impl.STATUS_BLOCKED;
 import static android.provider.Downloads.Impl.STATUS_CANCELED;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
@@ -58,6 +59,7 @@ import android.drm.DrmManagerClient;
 import android.drm.DrmOutputStream;
 import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
+import android.net.INetworkPolicyManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -66,6 +68,8 @@ import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.os.Process;
+import android.os.RemoteException;
+import android.os.ServiceManager;
 import android.os.SystemClock;
 import android.os.storage.StorageManager;
 import android.provider.Downloads;
@@ -120,7 +124,7 @@ public class DownloadThread extends Thread {
     private final Context mContext;
     private final SystemFacade mSystemFacade;
     private final DownloadNotifier mNotifier;
-    private final NetworkPolicyManager mNetworkPolicy;
+    private final INetworkPolicyManager mNetworkPolicy;
     private final StorageManager mStorage;
 
     private final DownloadJobService mJobService;
@@ -249,7 +253,8 @@ public class DownloadThread extends Thread {
         mContext = service;
         mSystemFacade = Helpers.getSystemFacade(mContext);
         mNotifier = Helpers.getDownloadNotifier(mContext);
-        mNetworkPolicy = mContext.getSystemService(NetworkPolicyManager.class);
+        mNetworkPolicy = INetworkPolicyManager.Stub.asInterface(
+                ServiceManager.getService(Context.NETWORK_POLICY_SERVICE));
         mStorage = mContext.getSystemService(StorageManager.class);
 
         mJobService = service;
@@ -294,12 +299,40 @@ public class DownloadThread extends Thread {
                         "No network associated with requesting UID");
             }
 
+            // Check if uid is isolated (no network access).
+            if (mNetworkPolicy.getUidHasPolicy(mInfo.mUid,
+                    NetworkPolicyManager.POLICY_REJECT_ALL)) {
+                throw new StopRequestException(STATUS_BLOCKED,
+                        "Download blocked by network policy for requesting UID");
+            }
+
             // Remember which network this download started on; used to
             // determine if errors were due to network changes.
             final NetworkInfo info = mSystemFacade.getNetworkInfo(mNetwork, mInfo.mUid,
                     mIgnoreBlocked);
             if (info != null) {
                 mNetworkType = info.getType();
+            }
+
+            // Go through network types to check if download should be blocked.
+            if (mNetworkType == ConnectivityManager.TYPE_MOBILE) {
+                if (mNetworkPolicy.getUidHasPolicy(mInfo.mUid,
+                        NetworkPolicyManager.POLICY_REJECT_CELLULAR)) {
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
+            } else if (mNetworkType == ConnectivityManager.TYPE_WIFI) {
+                if (mNetworkPolicy.getUidHasPolicy(mInfo.mUid,
+                        NetworkPolicyManager.POLICY_REJECT_WIFI)) {
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
+            } else if (mNetworkType == ConnectivityManager.TYPE_VPN) {
+                if (mNetworkPolicy.getUidHasPolicy(mInfo.mUid,
+                        NetworkPolicyManager.POLICY_REJECT_VPN)) {
+                    throw new StopRequestException(STATUS_BLOCKED,
+                            "Download blocked by network policy for requesting UID");
+                }
             }
 
             // Network traffic on this thread should be counted against the
@@ -384,7 +417,11 @@ public class DownloadThread extends Thread {
             TrafficStats.clearThreadStatsTag();
             TrafficStats.clearThreadStatsUid();
 
-            mNetworkPolicy.unregisterListener(mPolicyListener);
+            try {
+                mNetworkPolicy.unregisterListener(mPolicyListener);
+            } catch (RemoteException e) {
+                logError("Failed to unregister network policy listener", e);
+            }
         }
 
         boolean needsReschedule = false;
