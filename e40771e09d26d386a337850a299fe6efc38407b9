@@ -18,6 +18,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92db7ab0_e2e287b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-08-13T14:02:25Z",
+      "side": 1,
+      "message": "See comments in frameworks patch",
+      "parentUuid": "3d12d905_a6aeae60",
+      "revId": "e40771e09d26d386a337850a299fe6efc38407b9",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "664ef66a_d329eb73",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-08-13T13:35:02Z",
       "side": 1,
       "message": "To be complete, if we\u0027re switching things here you should do a revert of isUidIsolated here as well.\n\nThat makes it easier to pick next time around.",
+      "revId": "e40771e09d26d386a337850a299fe6efc38407b9",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ee10ab_7c55e2fa",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-08-13T14:02:25Z",
+      "side": 1,
+      "message": "You mean revert the previous network-isolation patch for DownloadProvider? I have created a revert for the frameworks patch",
+      "parentUuid": "664ef66a_d329eb73",
       "revId": "e40771e09d26d386a337850a299fe6efc38407b9",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
