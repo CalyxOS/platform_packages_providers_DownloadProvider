@@ -35,6 +35,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d845e8e_e8dfa7d3",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T18:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5eb5135_f48a4246",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b091ec4a_7922acd4",
@@ -52,6 +70,24 @@
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "991f69ee_ea44c474",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T18:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b091ec4a_7922acd4",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6354ab26_6a8a725a",
@@ -65,6 +101,24 @@
       "writtenOn": "2021-08-10T18:20:36Z",
       "side": 1,
       "message": "Same here and below.",
+      "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7d4c58_6b6c723e",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T18:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6354ab26_6a8a725a",
       "revId": "36f8bc1e05b424fa339addda6dd4763691684654",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }

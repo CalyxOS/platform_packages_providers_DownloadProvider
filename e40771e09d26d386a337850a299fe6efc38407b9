@@ -69,6 +69,24 @@
       "parentUuid": "664ef66a_d329eb73",
       "revId": "e40771e09d26d386a337850a299fe6efc38407b9",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c01bae59_0d8c85e1",
+        "filename": "src/com/android/providers/downloads/DownloadThread.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-08-25T18:23:59Z",
+      "side": 1,
+      "message": "Done https://review.calyxos.org/c/CalyxOS/platform_packages_providers_DownloadProvider/+/5004",
+      "parentUuid": "91ee10ab_7c55e2fa",
+      "revId": "e40771e09d26d386a337850a299fe6efc38407b9",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
