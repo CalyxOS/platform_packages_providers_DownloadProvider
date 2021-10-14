@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9c87da_61f2f27a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-10-14T21:44:42Z",
+      "side": 1,
+      "message": "Did we verify if https://review.calyxos.org/c/CalyxOS/platform_system_netd/+/6009 handles this? If it doesn\u0027t I guess we can merge",
+      "revId": "813ed5cbebd3b8adc4809653b2bfb781cd1b91ec",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
