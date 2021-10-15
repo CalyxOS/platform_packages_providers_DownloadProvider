@@ -16,6 +16,24 @@
       "message": "Did we verify if https://review.calyxos.org/c/CalyxOS/platform_system_netd/+/6009 handles this? If it doesn\u0027t I guess we can merge",
       "revId": "813ed5cbebd3b8adc4809653b2bfb781cd1b91ec",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d10791ea_b8778199",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-10-15T14:00:00Z",
+      "side": 1,
+      "message": "It wouldn\u0027t, the whole reason this is needed is because downloads run under the download manager uid and not the app itself.",
+      "parentUuid": "5b9c87da_61f2f27a",
+      "revId": "813ed5cbebd3b8adc4809653b2bfb781cd1b91ec",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
