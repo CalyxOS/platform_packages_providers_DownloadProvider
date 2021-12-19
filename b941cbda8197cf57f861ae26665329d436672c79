@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dcf894f_a8962a3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-12-19T23:58:47Z",
+      "side": 1,
+      "message": "It works, but I get very delayed \u0027download unsuccessful\u0027 notifications.",
+      "revId": "b941cbda8197cf57f861ae26665329d436672c79",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
