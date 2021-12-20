@@ -16,6 +16,24 @@
       "message": "It works, but I get very delayed \u0027download unsuccessful\u0027 notifications.",
       "revId": "b941cbda8197cf57f861ae26665329d436672c79",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b527773d_0a628d51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-12-20T11:35:42Z",
+      "side": 1,
+      "message": "That is expected given, the job is scheduled to retry",
+      "parentUuid": "7dcf894f_a8962a3b",
+      "revId": "b941cbda8197cf57f861ae26665329d436672c79",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
