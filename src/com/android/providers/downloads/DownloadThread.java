@@ -23,7 +23,6 @@ import static android.provider.Downloads.Impl.COLUMN_DELETED;
 import static android.provider.Downloads.Impl.COLUMN_STATUS;
 import static android.provider.Downloads.Impl.CONTROL_PAUSED;
 import static android.provider.Downloads.Impl.STATUS_BAD_REQUEST;
-import static android.provider.Downloads.Impl.STATUS_BLOCKED;
 import static android.provider.Downloads.Impl.STATUS_CANCELED;
 import static android.provider.Downloads.Impl.STATUS_CANNOT_RESUME;
 import static android.provider.Downloads.Impl.STATUS_FILE_ERROR;
@@ -57,10 +56,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.drm.DrmManagerClient;
 import android.drm.DrmOutputStream;
-import android.net.ConnectivitySettingsManager;
+import android.net.ConnectivityManager;
 import android.net.INetworkPolicyListener;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.net.NetworkPolicyManager;
 import android.net.TrafficStats;
 import android.net.Uri;
@@ -69,7 +69,6 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.os.storage.StorageManager;
 import android.provider.Downloads;
-import android.provider.Settings;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.system.OsConstants;
@@ -91,6 +90,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.GeneralSecurityException;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -291,14 +291,6 @@ public class DownloadThread extends Thread {
             if (mNetwork == null) {
                 throw new StopRequestException(STATUS_WAITING_FOR_NETWORK,
                         "No network associated with requesting UID");
-            }
-
-            if (Settings.Global.getInt(mContext.getContentResolver(),
-                    Settings.Global.RESTRICTED_NETWORKING_MODE, 0) != 0 &&
-                    !ConnectivitySettingsManager.getUidsAllowedOnRestrictedNetworks(mContext)
-                    .contains(mInfo.mUid)) {
-                throw new StopRequestException(STATUS_BLOCKED,
-                        "Download blocked by network restrictions for requesting UID");
             }
 
             // Network traffic on this thread should be counted against the
